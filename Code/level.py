@@ -1,4 +1,5 @@
 import pygame
+import os
 from settings import *
 from tile import Tile
 from player import Player
@@ -51,11 +52,25 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.half_height = self.display_surface.get_size()[1] // 2
         self.offset = pygame.math.Vector2()
         
+        # Creating the map
+        self.floor_surf = pygame.image.load(os.path.join('Code', '../Resources/World/Map', 'Map.png')).convert()
+        
+        # Creating the floor width and hight
+        self.floor_width = self.floor_surf.get_width() / 3
+        self.floor_hight = self.floor_surf.get_height() / 3
+        
+        self.floor_surf = pygame.transform.smoothscale(self.floor_surf, (self.floor_width, self.floor_hight))
+        self.floor_rect = self.floor_surf.get_rect(topleft = (0, 0))
+        
     def custom_draw(self, player):
         
         # Getting the offset
         self.offset.x = player.rect.centerx - self.half_width
         self.offset.y = player.rect.centery - self.half_height
+        
+        # Drawing the flow 
+        floor_offset_pos = self.floor_rect.topleft - self.offset
+        self.display_surface.blit(self.floor_surf, floor_offset_pos)
         
         # for sprite in self.sprites():
         for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):

@@ -1,3 +1,5 @@
+import pygame, os
+
 # game setUp
 WIDTH = 1280
 HEIGHT = 720
@@ -7,6 +9,10 @@ ZOOMSIZE = TILESIZE * 4
 
 # Player 
 SPEED = 3
+       
+# Creating the floor width and hight
+FLOOR_WIDTH = 2935.3333333333335
+FLOOR_HIGHT = 3109.3333333333335
 
 # Game map 
 WORLD_MAP = [

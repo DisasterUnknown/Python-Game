@@ -7,7 +7,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load(os.path.join('Code', '..', 'Resources', 'player.png')).convert_alpha()   # Getting the file
         self.image = pygame.transform.smoothscale(self.image, (ZOOMSIZE - 10, ZOOMSIZE - 5))                             # Setting the file size
         self.rect = self.image.get_rect(topleft = pos)
-        self.hitbox = self.rect.inflate(0, -26)    # Hitbox Size
+        self.hitbox = self.rect.inflate(0, 0)    # Hitbox Size
         
         self.direction = pygame.math.Vector2()
         self.speed = SPEED                            # Player Speen

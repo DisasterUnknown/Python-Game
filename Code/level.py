@@ -1,5 +1,6 @@
 import pygame
 import os
+from suport import *
 from settings import *
 from tile import Tile
 from player import Player
@@ -20,18 +21,26 @@ class Level:
         
     # Creating the map
     def create_map(self):
-        for row_index, row in enumerate(WORLD_MAP):
-            for col_index, col in enumerate(row):
-                x = col_index * ZOOMSIZE
-                y = row_index * ZOOMSIZE
+        layouts = {
+            'boundary': import_csv_layout(os.path.join('Code', '../Resources/World/Dot Map/', 'Coliders.csv'))
+        }
+        
+        for style, layout in layouts.items():
+            for row_index, row in enumerate(layout):
+                for col_index, col in enumerate(row):
+                    if col != '-1':
+                        x = col_index * (FLOOR_WIDTH / 100)
+                        y = row_index * (FLOOR_HIGHT / 106)
+                        if style == 'boundary':
+                            Tile((x, y), [self.obstacle_sprites], 'invisible')
 
-                # Displaying the imgs
-                if col == 'x':
-                    Tile((x,y),[self.visible_sprites,self.obstacle_sprites])
-                if col == 'p':
-                    self.Player = Player((x,y),[self.visible_sprites], self.obstacle_sprites)    
-                
-                # print(f"{col_index}, {row_index}")
+        #         # Displaying the imgs
+        #         if col == 'x':
+        #             Tile((x,y),[self.visible_sprites,self.obstacle_sprites])
+        #         if col == 'p':
+        #             self.Player = Player((x,y),[self.visible_sprites], self.obstacle_sprites)    
+        self.Player = Player((1500, 2900),[self.visible_sprites], self.obstacle_sprites)
+        
                 
 
     def run(self):
@@ -55,11 +64,7 @@ class YSortCameraGroup(pygame.sprite.Group):
         # Creating the map
         self.floor_surf = pygame.image.load(os.path.join('Code', '../Resources/World/Map', 'Map.png')).convert()
         
-        # Creating the floor width and hight
-        self.floor_width = self.floor_surf.get_width() / 3
-        self.floor_hight = self.floor_surf.get_height() / 3
-        
-        self.floor_surf = pygame.transform.smoothscale(self.floor_surf, (self.floor_width, self.floor_hight))
+        self.floor_surf = pygame.transform.smoothscale(self.floor_surf, (FLOOR_WIDTH, FLOOR_HIGHT))
         self.floor_rect = self.floor_surf.get_rect(topleft = (0, 0))
         
     def custom_draw(self, player):

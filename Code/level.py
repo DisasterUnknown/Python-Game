@@ -29,8 +29,8 @@ class Level:
             for row_index, row in enumerate(layout):
                 for col_index, col in enumerate(row):
                     if col != '-1':
-                        x = col_index * (FLOOR_WIDTH / 100)
-                        y = row_index * (FLOOR_HIGHT / 106)
+                        x = col_index * 29.35
+                        y = row_index * 29.35
                         if style == 'boundary':
                             Tile((x, y), [self.obstacle_sprites], 'invisible')
 
